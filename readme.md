@@ -7,3 +7,9 @@
 ## Idea
 - shift+v:替换变量名
 - ctrl+alt+v:抽取并赋值
+
+## h2
+[设置用户名密码]<https://blog.csdn.net/tripleDemo/article/details/98888281>
+
+## flyway
+集成h2抽空再学
