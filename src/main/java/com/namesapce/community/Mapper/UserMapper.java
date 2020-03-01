@@ -3,6 +3,8 @@ package com.namesapce.community.Mapper;
 import com.namesapce.community.Model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 
 /**
@@ -13,5 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
     @Insert("insert into user (ACCOUNT_ID,NAME,TOKEN,GMT_CREATE,GMT_MODIFIED) values (#{accountId},#{name},#{token},#{gmtCreate},#{gmtModified})")
-    public void insert(User user);
+    void insert(User user);
+    @Select("select * from user where TOKEN=#{token}")
+    User findByToken(@Param("token") String token);
 }
