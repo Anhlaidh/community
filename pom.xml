@@ -94,7 +94,12 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
@@ -119,10 +124,11 @@
                         <artifactId>h2</artifactId>
                         <version>1.4.197</version>
                     </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+
+
                 </dependencies>
             </plugin>
         </plugins>
-
     </build>
-
 </project>

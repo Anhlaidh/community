@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>nameSapce</title>
+    <title>发布</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="../static/css/style.css">
+
 </head>
 <body>
-
 <nav class="navbar navbar-default">
-
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -31,10 +30,10 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="搜索问题">
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
+                <button type="submit" class="btn btn-default ">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li th:if=" ${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.8143781cecc4d17c&redirect_uri=http://localhost:8888/callback&scope=user&state=1">登录</a></li>
+<!--                <li th:if=" ${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.8143781cecc4d17c&redirect_uri=http://localhost:8888/callback&scope=user&state=1">登录</a></li>-->
                 <li class="dropdown" th:if="${session.user !=null}">
                     <a href="/publish" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">发布 <span class="caret"></span></a>
@@ -48,41 +47,43 @@
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
+
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 
+
+
 </nav>
-<div class="jumbotron" style="margin: 30px">
-    <h1>Hello, world!</h1>
-    <p>...</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
+
+<div class="container-fluid"><div th:if="${error}!=null" class="alert alert-warning" role="alert" th:text="${error}"></div></div>
+
 <div class="container-fluid " style="margin: 30px">
     <div class="row main">
         <!--            TODO col-lg-9 .col-md-12 .col-sm-12 .col-xs-12
                              col-lg-3 .col-md-12 .col-sm-12 .col-xs-12-->
         <div class="col-lg-9 .col-md-9 .col-sm-9 .col-xs-9">
-            <h2><span class="glyphicon  glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <h2><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>发起</h2>
             <hr>
-            <div class="media" th:each="question : ${questions}">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}" >
-                    </a>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题（简单扼要）：</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${title}" placeholder="问题标题...">
                 </div>
-                <div class="media-body" >
-                    <h4 class="media-heading" th:text="${question.getTitle()}"></h4>
-                    <span th:text="${question.getDescription()}"></span> <br>
-                    <span class="test-desc" th:text="${question.getLikeCount()}"></span> <span class="test-desc">赞</span>
-                    <span class="test-desc" th:text="${question.getCommentCount()}"></span> <span class="test-desc">条评论</span>
-                    <span class="test-desc" th:text="${question.getViewCount()}"></span> <span class="test-desc">次阅读</span>
-                    <span class="test-desc" th:text="${#dates.format(question.getGmtCreate(),'h')}"></span> <span class="test-desc">小时前</span>
 
-                    <!--                    <span class="test-desc" th:text="${question.ge()}">2个回复·31次浏览·1小时前</span>-->
-
+                <div class="form-group">
+                    <label for="description">问题补充（必填，请参照右侧说明）:</label>
+                    <textarea class="form-control" id="description" name="description" th:text="${description}" cols="30" rows="10"></textarea>
+<!--                    th:value 会导致area的值不能回显-->
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="tag">标签</label>
+                    <input type="text" class="form-control" id="tag"  name="tag" th:value="${tag}" placeholder="输入标签，以逗号分隔">
+                </div>
+                <button type="submit" class="btn btn-primary btn-publish">提交</button>
+
+
+            </form>
 
         </div>
         <div class="col-lg-3 .col-md-3 .col-sm-3 .col-xs-3">
@@ -95,7 +96,5 @@
         </div>
     </div>
 </div>
-
-
 </body>
 </html>
