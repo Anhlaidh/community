@@ -7,6 +7,7 @@
 ## Idea
 - ctrl+shift+v:替换变量名
 - ctrl+alt+v:抽取并赋值
+- ctrl+p:查看参数
  a
 ## h2
 [设置用户名密码]<https://blog.csdn.net/tripleDemo/article/details/98888281>

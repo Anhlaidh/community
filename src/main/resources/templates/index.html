@@ -37,11 +37,11 @@
                 <li th:if=" ${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.8143781cecc4d17c&redirect_uri=http://localhost:8888/callback&scope=user&state=1">登录</a></li>
                 <li class="dropdown" th:if="${session.user !=null}">
                     <a href="/publish" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">发布 <span class="caret"></span></a>
+                       aria-expanded="false">发布 </span></a>
                 </li>
                 <li class="dropdown" th:if="${session.user !=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false"th:text="${session.user.getName()}">我 <span class="caret"></span></a>
+                       aria-expanded="false"th:text="${session.user.getName()}"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
@@ -65,10 +65,10 @@
         <div class="col-lg-9 .col-md-9 .col-sm-9 .col-xs-9">
             <h2><span class="glyphicon  glyphicon-list" aria-hidden="true"></span>发现</h2>
             <hr>
-            <div class="media" th:each="question : ${questions}">
+            <div class="media" th:each="question :${pagination.getQuestionDTOS()}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}" >
+                        <img class="media-object img-thumbnail" th:src="${question.getUser().getAvatarUrl()}" >
                     </a>
                 </div>
                 <div class="media-body" >
@@ -77,12 +77,44 @@
                     <span class="test-desc" th:text="${question.getLikeCount()}"></span> <span class="test-desc">赞</span>
                     <span class="test-desc" th:text="${question.getCommentCount()}"></span> <span class="test-desc">条评论</span>
                     <span class="test-desc" th:text="${question.getViewCount()}"></span> <span class="test-desc">次阅读</span>
-                    <span class="test-desc" th:text="${#dates.format(question.getGmtCreate(),'h')}"></span> <span class="test-desc">小时前</span>
+                    <span class="test-desc" th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
 
                     <!--                    <span class="test-desc" th:text="${question.ge()}">2个回复·31次浏览·1小时前</span>-->
 
                 </div>
             </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous" th:if="${pagination.isShowFirstPage()}" th:href="@{/(page=1)}">
+                            <span aria-hidden="true"><<</span>
+                        </a>
+                        <a href="#" th:if="${pagination.isShowPrevious()}" th:href="@{/(page=${pagination.getPage()-1})}" aria-label="Previous">
+                            <span aria-hidden="true"><</span>
+                        </a>
+                    </li>
+<!--                    <span th:each="page:${pagination.getPages()}">-->
+                        <li th:each="page:${pagination.pages}"th:class="${page==pagination.page}? 'active' : ''">
+                            <a href="#"th:href="@{/(page=${page})}" th:text="${page}"></a>
+<!--                            <p th:text="${page==pagination.page}"></p>-->
+<!--                            <p th:text="${pagination.page}"></p>-->
+<!--                            <p th:text="${page}"></p>-->
+
+                        </li>
+
+
+<!--                    </span>-->
+                    <li>
+                        <a href="#" th:if="${pagination.isShowNext()}" th:href="@{/(page=${pagination.getPage()+1})}" aria-label="Next">
+                            <span aria-hidden="true">></span>
+                        </a>
+                        <a href="#" th:if="${pagination.isShowEndPage()}" th:href="@{/(page=${pagination.getTotalPage()})}"  aria-label="Next">
+                            <span aria-hidden="true">>></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
         </div>
         <div class="col-lg-3 .col-md-3 .col-sm-3 .col-xs-3">
@@ -95,7 +127,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 </html>
