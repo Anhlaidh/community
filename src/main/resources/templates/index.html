@@ -35,7 +35,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.getTitle()}"></h4>
+                    <h4 class="media-heading" >
+                        <a th:text="${question.getTitle()}"th:href="@{'/question/'+${question.id}}"></a>
+                    </h4>
                     <span th:text="${question.getDescription()}"></span> <br>
                     <span class="test-desc" th:text="${question.getLikeCount()}"></span> <span
                         class="test-desc">赞</span>

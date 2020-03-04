@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${question.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <!--    <link rel="stylesheet" href="../static/css/bootstrap.min.css">-->
+    <!--    <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">-->
+    <!--    <link rel="stylesheet" href="../static/css/style.css">-->
+</head>
+<body>
+<div th:insert="~{navigation::nav}"></div>
+<div class="alert alert-danger" role="alert" th:if="${session.user==null}" th:value="请先登录"></div>
+<div class="container-fluid " th:if="${session.user!=null}" style="margin: 30px">
+    <div class="row main profile">
+        <!--            TODO col-lg-9 .col-md-12 .col-sm-12 .col-xs-12
+                             col-lg-3 .col-md-12 .col-sm-12 .col-xs-12-->
+        <div class="col-lg-9 .col-md-9 .col-sm-9 .col-xs-9">
+            <h3><span th:text="${question.title}"></span></h3>
+            <div class="media-body">
+                <span class="test-desc">作者：  </span><span class="test-desc" th:text="${question.getUser().getName()}"></span><span class="test-desc">  | </span>
+                <span class="test-desc" th:text="${question.getLikeCount()}"></span> <span
+                    class="test-desc">赞  </span><span class="test-desc">|</span>
+                <span class="test-desc" th:text="${question.getViewCount()}"></span> <span
+                    class="test-desc">次阅读  </span><span class="test-desc">|</span><span class="test-desc">  发布时间：</span>
+                <span class="test-desc"
+                      th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span> <br>
+
+                <!--                    <span class="test-desc" th:text="${question.ge()}">2个回复·31次浏览·1小时前</span>-->
+            </div>
+            <hr>
+            <span th:text="${question.getDescription()}"></span>
+            <hr>
+            <a class="community-menu" th:href="@{'/publish /'+${question.id}}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                编辑</a>
+        </div>
+        <div class="col-lg-3 .col-md-3 .col-sm-3 .col-xs-3">
+            <div class="col-lg-12 .col-md-12 .col-sm-12 .col-xs-12">
+
+            <h4>发起人</h4>
+                <div class="media" >
+                    <div class="media-left">
+<!--                        <a href="#">-->
+<!--                            <img class=" img-thumbnail" th:src="${question.user.getAvatarUrl()}">-->
+<!--                        </a>-->
+                        <div class="thumbnail">
+                            <img th:src="${question.user.getAvatarUrl()}"src="..." alt="...">
+                            <div class="caption">
+                                <h3>Thumbnail label</h3>
+                                <p>...</p>
+                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

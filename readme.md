@@ -3,6 +3,7 @@
 
 - [BootStrap]( https://v3.bootcss.com/components/#navbar)
 - [gitapp](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
+[打开Github网站反应慢的问题](https://blog.csdn.net/xinshui151/article/details/79200390)
 
 ## Idea
 - ctrl+shift+v:替换变量名
@@ -24,3 +25,4 @@
 mybatis.configuration.map-underscore-to-camel-case=true
 ``
 识别驼峰
+
