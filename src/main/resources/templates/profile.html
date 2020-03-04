@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>nameSapce</title>
+    <title>个人中心</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
@@ -15,23 +15,18 @@
 </head>
 <body>
 <div th:insert="~{navigation::nav}"></div>
-
-<div class="jumbotron" style="margin: 30px">
-    <h1>Hello, world!</h1>
-    <p>...</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
-<div class="container-fluid " style="margin: 30px">
-    <div class="row main">
+<div class="alert alert-danger" role="alert" th:if="${session.user==null}" th:value="请先登录"></div>
+<div class="container-fluid " th:if="${session.user!=null}" style="margin: 30px">
+    <div class="row main profile">
         <!--            TODO col-lg-9 .col-md-12 .col-sm-12 .col-xs-12
                              col-lg-3 .col-md-12 .col-sm-12 .col-xs-12-->
         <div class="col-lg-9 .col-md-9 .col-sm-9 .col-xs-9">
-            <h2><span class="glyphicon  glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <h2><span th:text="${title}"></span></h2>
             <hr>
             <div class="media" th:each="question :${pagination.getQuestionDTOS()}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-thumbnail" th:src="${question.user.getAvatarUrl()}">
+                        <img class="media-object img-thumbnail" th:src="${question.getUser().getAvatarUrl()}">
                     </a>
                 </div>
                 <div class="media-body">
@@ -50,22 +45,21 @@
 
                 </div>
             </div>
-
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
                         <a href="#" aria-label="Previous" th:if="${pagination.isShowFirstPage()}"
-                           th:href="@{/(page=1)}">
+                           th:href="@{/profile/question(page=1)}">
                             <span aria-hidden="true"><<</span>
                         </a>
                         <a href="#" th:if="${pagination.isShowPrevious()}"
-                           th:href="@{/(page=${pagination.getPage()-1})}" aria-label="Previous">
+                           th:href="@{/profile/question(page=${pagination.getPage()-1})}" aria-label="Previous">
                             <span aria-hidden="true"><</span>
                         </a>
                     </li>
                     <!--                    <span th:each="page:${pagination.getPages()}">-->
                     <li th:each="page:${pagination.pages}" th:class="${page==pagination.page}? 'active' : ''">
-                        <a href="#" th:href="@{/(page=${page})}" th:text="${page}"></a>
+                        <a href="#" th:href="@{/profile/question(page=${page})}" th:text="${page}"></a>
                         <!--                            <p th:text="${page==pagination.page}"></p>-->
                         <!--                            <p th:text="${pagination.page}"></p>-->
                         <!--                            <p th:text="${page}"></p>-->
@@ -73,12 +67,12 @@
                     </li>
                     <!--                    </span>-->
                     <li>
-                        <a href="#" th:if="${pagination.isShowNext()}" th:href="@{/(page=${pagination.getPage()+1})}"
+                        <a href="#" th:if="${pagination.isShowNext()}" th:href="@{/profile/question(page=${pagination.getPage()+1})}"
                            aria-label="Next">
                             <span aria-hidden="true">></span>
                         </a>
                         <a href="#" th:if="${pagination.isShowEndPage()}"
-                           th:href="@{/(page=${pagination.getTotalPage()})}" aria-label="Next">
+                           th:href="@{/profile/question(page=${pagination.getTotalPage()})}" aria-label="Next">
                             <span aria-hidden="true">>></span>
                         </a>
                     </li>
@@ -87,12 +81,11 @@
 
         </div>
         <div class="col-lg-3 .col-md-3 .col-sm-3 .col-xs-3">
-            <h2>问题发起指南</h2>
-            <h4>· 问题描述：<br><small>请使用简洁的语言描述您发布的问题，不超过25字</small></h4>
-            <h4>· 问题补充：<br><small>详细补充您的问题内容，并确保问题描述清晰直观</small></h4>
-            <h4>· 选择标签：<br><small>选择一个或多个合适的标签，用逗号分隔，不超过十个字</small></h4>
+            <div class="list-group section">
+                <a th:href="@{/profile/questions}" th:class="${section=='questions'}?'list-group-item active':'list-group-item'">我的问题</a>
+                <a th:href="@{/profile/replies}" th:class="${section=='replies'}?'list-group-item active':'list-group-item'">最新回复<span class="badge">14</span></a>
 
-
+            </div>
         </div>
     </div>
 </div>

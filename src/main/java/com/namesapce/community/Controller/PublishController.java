@@ -3,14 +3,13 @@ package com.namesapce.community.Controller;
 import com.namesapce.community.Mapper.QuestionMapper;
 import com.namesapce.community.Model.Question;
 import com.namesapce.community.Model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class PublishController {
-    @Autowired
+    @Resource
     private QuestionMapper questionMapper;
     @GetMapping("/publish")
     public String publish(){
@@ -60,7 +59,7 @@ public class PublishController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
-        question.setCreator(user.getId());
+        question.setCreator(Integer.parseInt(user.getAccountId()));
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
 

@@ -42,4 +42,5 @@ public class PaginationDTO {
         showNext= !page.equals(totalPage);
 
     }
+
 }
