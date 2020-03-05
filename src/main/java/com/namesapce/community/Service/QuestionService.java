@@ -5,7 +5,9 @@ import com.namesapce.community.DTO.QuestionDTO;
 import com.namesapce.community.Mapper.QuestionMapper;
 import com.namesapce.community.Mapper.UserMapper;
 import com.namesapce.community.Model.Question;
+import com.namesapce.community.Model.QuestionExample;
 import com.namesapce.community.Model.User;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +29,18 @@ public class QuestionService {
     public PaginationDTO list(Integer page,Integer size){
         Integer offset = size*(page-1);
 
-        List<Question> questions = questionMapper.list(offset,size);
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(),new RowBounds(offset,size));
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
         PaginationDTO paginationDTO = new PaginationDTO();
         for (Question question:questions){
-            User user = userMapper.findById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setQuestionDTOS(questionDTOList);
-        Integer totalCount = questionMapper.count();
+        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
         paginationDTO.setPage(page);
         paginationDTO.setPagination(totalCount,page,size);
         return paginationDTO;
@@ -46,25 +48,32 @@ public class QuestionService {
     public PaginationDTO Profiles(Integer page, Integer size, User currentUser){
         Integer offset = size*(page-1);
 
-        List<Question> questions = questionMapper.listProfile(offset,size,currentUser.getId());
+
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andIdEqualTo(currentUser.getId());
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
         PaginationDTO paginationDTO = new PaginationDTO();
         for (Question question:questions){
-            User user = userMapper.findById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setQuestionDTOS(questionDTOList);
-        Integer totalCount = questionMapper.profileCount(currentUser.getId());
+
+        QuestionExample question = new QuestionExample();
+        question.createCriteria().andIdEqualTo(currentUser.getId());
+        Integer totalCount = (int)questionMapper.countByExample(question);
         paginationDTO.setPage(page);
         paginationDTO.setPagination(totalCount,page,size);
         return paginationDTO;
     }
 
     public QuestionDTO getById(Integer id) {
-        Question question = questionMapper.getById(id);
+
+        Question question = questionMapper.selectByPrimaryKey(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         return questionDTO;
@@ -75,11 +84,11 @@ public class QuestionService {
             //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
-            questionMapper.create(question);
+            questionMapper.insert(question);
         }else {
             //更新
             question.setGmtModified(System.currentTimeMillis());
-            questionMapper.update(question);
+            questionMapper.updateByPrimaryKeySelective(question);
         }
     }
 }

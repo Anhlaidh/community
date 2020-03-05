@@ -29,3 +29,14 @@ mybatis.configuration.map-underscore-to-camel-case=true
 ``
 识别驼峰
 
+## MybatisGenerator
+1. 插件，依赖
+2. 配置xml（windows路径用\）     
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
+3. 配置application.property（配置springboot的读取路径）
+4. 主入口加@MapperScan(basePackages = "com.namesapce.community.mapper")
+5. `` java
+User user = userMapper.selectByPrimaryKey(question.getCreator());  
+QuestionDTO questionDTO = new QuestionDTO();
+ ``

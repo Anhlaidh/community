@@ -28,7 +28,7 @@ public class QuestionController {
             Model model
     ){
         QuestionDTO questionDTO = questionService.getById(id);
-        User user = userMapper.findById(questionDTO.getCreator());
+        User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
         questionDTO.setUser(user);
         model.addAttribute("question",questionDTO);
         return "question";
