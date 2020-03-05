@@ -63,10 +63,23 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getId(Integer id) {
-        Question question = questionMapper.getId(id);
+    public QuestionDTO getById(Integer id) {
+        Question question = questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         return questionDTO;
+    }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId()==null){
+            //创建
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }else {
+            //更新
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
     }
 }

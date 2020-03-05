@@ -27,7 +27,7 @@ public class QuestionController {
             @PathVariable(name = "id") Integer id,
             Model model
     ){
-        QuestionDTO questionDTO = questionService.getId(id);
+        QuestionDTO questionDTO = questionService.getById(id);
         User user = userMapper.findById(questionDTO.getCreator());
         questionDTO.setUser(user);
         model.addAttribute("question",questionDTO);

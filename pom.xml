@@ -93,6 +93,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>1.4.197</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -119,7 +120,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.2.4</version>
                 <configuration>
-                    <url>jdbc:h2:file:~/DataSource</url>
+                    <url>jdbc:h2:file:~/Data</url>
                     <user>sa</user>
                     <password>123</password>
                 </configuration>
@@ -133,6 +134,12 @@
 
 
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
             </plugin>
         </plugins>
     </build>
