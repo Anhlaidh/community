@@ -5,6 +5,7 @@ import com.namesapce.community.DTO.GitHubUser;
 import com.namesapce.community.Mapper.UserMapper;
 import com.namesapce.community.Model.User;
 import com.namesapce.community.Provider.GithubProvider;
+import com.namesapce.community.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -53,14 +56,12 @@ public class AuthorizeController {
         GitHubUser gitHubUser = githubProvider.getUser(accessToken);
         if (gitHubUser!=null){
             User user = new User();
+            user.setAccountId(String.valueOf(gitHubUser.getId()));
+            user.setName(gitHubUser.getName());
+            user.setAvatarUrl(gitHubUser.getAvatarUrl());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setName(gitHubUser.getName());
-            user.setAccountId(String.valueOf(gitHubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            user.setAvatarUrl(gitHubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("gitHubUser",gitHubUser);
             return "redirect:/";
