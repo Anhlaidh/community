@@ -1,7 +1,7 @@
 create table question
 (
-	id int,
-	title varchar(50) primary KEY,
+	id  int AUTO_INCREMENT PRIMARY KEY ,
+	title varchar(50) ,
 	description text,
 	gmt_create bigint,
 	gmt_modified bigint,

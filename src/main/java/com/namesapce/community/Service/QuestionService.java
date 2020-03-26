@@ -2,6 +2,8 @@ package com.namesapce.community.Service;
 
 import com.namesapce.community.DTO.PaginationDTO;
 import com.namesapce.community.DTO.QuestionDTO;
+import com.namesapce.community.Exception.CustomizeErrorCode;
+import com.namesapce.community.Exception.CustomizeException;
 import com.namesapce.community.Mapper.QuestionMapper;
 import com.namesapce.community.Mapper.UserMapper;
 import com.namesapce.community.Model.Question;
@@ -73,9 +75,13 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
 
-        Question question = questionMapper.selectByPrimaryKey(id);
-        QuestionDTO questionDTO = new QuestionDTO();
-        BeanUtils.copyProperties(question,questionDTO);
+          Question question = questionMapper.selectByPrimaryKey(id);
+          if (question==null){
+              throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+          }
+          QuestionDTO questionDTO = new QuestionDTO();
+          BeanUtils.copyProperties(question,questionDTO);
+
         return questionDTO;
     }
 
@@ -88,7 +94,11 @@ public class QuestionService {
         }else {
             //更新
             question.setGmtModified(System.currentTimeMillis());
-            questionMapper.updateByPrimaryKeySelective(question);
+            int update = questionMapper.updateByPrimaryKeySelective(question);
+            if (update != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
+
         }
     }
 }

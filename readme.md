@@ -9,13 +9,15 @@
 - ctrl+shift+v:替换变量名
 - ctrl+alt+v:抽取并赋值
 - ctrl+p:查看参数
+- ctrl+alt+o删除多余包
+- ctrl+F12 查看当前类中的包
  a
 ## h2
-[设置用户名密码]<https://blog.csdn.net/tripleDemo/article/details/98888281>
+[设置用户名密码](https://blog.csdn.net/tripleDemo/article/details/98888281)
 
 ## flyway
-集成h2抽空再学
-https://www.jianshu.com/p/4f4f314bc163
+[集成h2抽空再学](https://www.jianshu.com/p/4f4f314bc163)
+
 集成成功了！！！！  
 驱动版本降低
 
