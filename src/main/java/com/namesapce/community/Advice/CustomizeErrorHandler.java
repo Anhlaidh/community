@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date: 2020/3/8 0008 21:59
  */
 @ControllerAdvice
-public class CustomizeErrorController {
+public class CustomizeErrorHandler {
     @ExceptionHandler(Exception.class)
     ModelAndView handleControllerException(HttpServletRequest request, Throwable ex,Model model) {
         HttpStatus status = getStatus(request);
