@@ -4,6 +4,7 @@ import com.namesapce.community.DTO.PaginationDTO;
 import com.namesapce.community.DTO.QuestionDTO;
 import com.namesapce.community.Exception.CustomizeErrorCode;
 import com.namesapce.community.Exception.CustomizeException;
+import com.namesapce.community.Mapper.QuestionExtMapper;
 import com.namesapce.community.Mapper.QuestionMapper;
 import com.namesapce.community.Mapper.UserMapper;
 import com.namesapce.community.Model.Question;
@@ -11,6 +12,7 @@ import com.namesapce.community.Model.QuestionExample;
 import com.namesapce.community.Model.User;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +28,8 @@ import java.util.List;
 public class QuestionService {
     @Resource
     private QuestionMapper questionMapper;
+    @Resource
+    private QuestionExtMapper questionExtMapper;
     @Resource
     private UserMapper userMapper;
     public PaginationDTO list(Integer page,Integer size){
@@ -100,5 +104,12 @@ public class QuestionService {
             }
 
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }

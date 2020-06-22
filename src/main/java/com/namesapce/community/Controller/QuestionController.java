@@ -28,8 +28,10 @@ public class QuestionController {
             Model model
     ){
         QuestionDTO questionDTO = questionService.getById(id);
+        questionService.incView(id);
         User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
         questionDTO.setUser(user);
+        //累加阅读数
         model.addAttribute("question",questionDTO);
         return "question";
     }

@@ -18,6 +18,10 @@
 ## flyway
 [集成h2抽空再学](https://www.jianshu.com/p/4f4f314bc163)
 
+```bash
+mvn flyway:migrate
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
 集成成功了！！！！  
 驱动版本降低
 
